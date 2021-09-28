@@ -1,0 +1,20 @@
+{
+	"compilerOptions": {
+		"target": "es2020",
+		"module": "commonjs",
+		"allowJs": false,
+		"rootDir": "src",
+		"strict": true,
+		"strictPropertyInitialization": true,
+		"moduleResolution": "node",
+		"baseUrl": "./src",
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"forceConsistentCasingInFileNames": true,
+		"noImplicitAny": true,
+		"typeRoots": ["node_modules/@types", "@types"]
+	},
+	"exclude": ["node_modules"]
+}

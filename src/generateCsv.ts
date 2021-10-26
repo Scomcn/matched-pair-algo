@@ -1,3 +1,5 @@
+#!/usr/bin/env ts-node
+
 // This file will generate a sample CSV data set with random data
 import fs from 'fs'
 

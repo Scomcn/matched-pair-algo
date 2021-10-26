@@ -6,16 +6,15 @@
 	"main": "src/matchPairs.ts",
 	"license": "UNLICENSED",
 	"scripts": {
-		"run-ts": "npx ts-node --project ./node.tsconfig.json",
-		"generate": "yarn run-ts ./src/generateCsv.ts",
-		"import": "yarn run-ts ./src/importCsv.ts",
-		"matchPairs": "yarn run-ts ./src/matchPairs.ts",
-		"export": "yarn run-ts ./src/exportCsv.ts",
+		"generate": "src/generateCsv.ts",
+		"import": "src/importCsv.ts",
+		"matchPairs": "src/matchPairs.ts",
+		"export": "src/exportCsv.ts",
 		"all": "yarn run import && yarn run matchPairs && yarn run export",
 		"clean": "rm -f ./data/input/slnb.json && rm -f ./data/input/elnd.json && rm -f ./data/output/*",
 		"clean:all": "rm -f ./data/input/* && rm -f ./data/output/*"
 	},
-	"devDependencies": {
+	"dependencies": {
 		"@types/node": "^15.3.0",
 		"fs": "0.0.1-security",
 		"ts-node": "^9.1.1",

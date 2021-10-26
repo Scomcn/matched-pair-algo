@@ -1,13 +1,13 @@
-import fs from 'fs'
+#!/usr/bin/env ts-node
 
+import fs from 'fs'
 import {
-	pairingJsonPath,
 	elndPath,
 	getHazardExplanation,
 	pairingCsvPath,
+	pairingJsonPath,
 	PatientRecord,
 	RecordComparison,
-	slnbPath,
 } from './common'
 
 console.time(`\tReading pairings from "${pairingJsonPath}"`)

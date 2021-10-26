@@ -1,3 +1,5 @@
+#!/usr/bin/env ts-node
+
 // This file contains definitions of constants used across multiple ts files
 export const csvPath = './data/input/dataset.csv'
 export const slnbPath = './data/input/slnb.json'

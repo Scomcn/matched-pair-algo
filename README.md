@@ -12,7 +12,7 @@ The algorithm aims to assign patients with the most similar Hazard Ratios to eac
 
 The list of pairings is then used for _Matched Pair Analysis_, a technique where patients with similar attributes are compared to establish whether the factor of interest (type of procedure, in this case) has an effect on outcomes.
 
-See **Overview.pdf** for a set of slides demonstrating the function of the algorithm.
+See [Overview.pdf](https://github.com/Scomcn/matched-pair-algo/blob/master/Overview.pdf) for a set of slides that demonstrate this algorithm.
 
 ## Running Instructions
 

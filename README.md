@@ -19,13 +19,13 @@ See [Overview.pdf](https://github.com/Scomcn/matched-pair-algo/blob/master/Overv
 ### Prerequisites
 
 - Installed Node.js (v16.9.1 or later)
-- Installed Yarn (v1.22.5 or later)
-- Navigate to the project directory
+- Installed NPM (7.21.1 or later)
+- Navigated to the project directory
 
 ### Install dependencies
 
 - From the project directory, run
-  `yarn install`
+  `npm install`
 
 ### Add input data
 
@@ -33,11 +33,11 @@ See [Overview.pdf](https://github.com/Scomcn/matched-pair-algo/blob/master/Overv
 
   - Note: the Date of Surgery field must be in the ISO format
 
-- Alternatively, if you don't have a dataset or are unsure about proper formatting, run `yarn generate`. This will create a `dataset.csv` in the correct folder, with randomly generated data.
+- Alternatively, if you don't have a dataset or are unsure about proper formatting, run `npm run generate`. This will create a `dataset.csv` in the correct folder, with randomly generated data.
 
 ### Running the algorithm
 
-- Run `yarn all`
+- Run `npm run all`
   - This will run 3 scripts:
     - import - converts the CSV dataset into JSON files
     - matchPairs - runs the matched pair algorithm on the JSON data
@@ -45,7 +45,7 @@ See [Overview.pdf](https://github.com/Scomcn/matched-pair-algo/blob/master/Overv
 
 ### Retrieving your data
 
-- After running `yarn all`, the results will be available in 2 formats:
+- After running `npm run all`, the results will be available in 2 formats:
   - CSV format, similar to the input format
     - Can be found in `data/output/pairings.csv`
   - JSON format
@@ -53,9 +53,9 @@ See [Overview.pdf](https://github.com/Scomcn/matched-pair-algo/blob/master/Overv
 
 ### Clean repo
 
-- Clean up the files produced by the script by running `yarn clean`
-  - This will not delete `dataset.csv` in the `input` directory
-- Clean up all files and folders in `input` and `output` by running `yarn clean:all`
-  - This will delete _everything_ inside both `input` and `output`
+Warning: these operations are not reversible.
 
-These operations are not reversible.
+- Clean up the files produced by the script by running `npm run clean`
+  - This will not delete `dataset.csv` in the `input` directory
+- Clean up all files and folders in `input` and `output` by running `npm run clean:all`
+  - This will delete _everything_ inside both `input` and `output`

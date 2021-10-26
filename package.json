@@ -10,7 +10,7 @@
 		"import": "src/importCsv.ts",
 		"matchPairs": "src/matchPairs.ts",
 		"export": "src/exportCsv.ts",
-		"all": "yarn run import && yarn run matchPairs && yarn run export",
+		"all": "npm run import && npm run matchPairs && npm run export",
 		"clean": "rm -f ./data/input/slnb.json && rm -f ./data/input/elnd.json && rm -f ./data/output/*",
 		"clean:all": "rm -f ./data/input/* && rm -f ./data/output/*"
 	},

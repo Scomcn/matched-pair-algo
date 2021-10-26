@@ -61,7 +61,7 @@ console.time(`Writing generated file to "${csvPath}"...`)
 if (fs.existsSync(csvPath)) {
 	console.error(
 		`The file "${csvPath}" already exists. Please move or delete the file and try again.\n`,
-		'Tip: use `yarn clean:all` to delete all files in data/input and data/output.'
+		'Tip: use `npm run clean:all` to delete all files in data/input and data/output.'
 	)
 	process.exit(1)
 }

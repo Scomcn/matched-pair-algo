@@ -10,14 +10,14 @@ import {
 	slnbPath,
 } from './common'
 
-console.time(`\tReading pairings from "${slnbPath}" and "${elndPath}"`)
+console.time(`\tReading pairings from "${pairingJsonPath}"`)
 const elndRecords = JSON.parse(
 	fs.readFileSync(elndPath).toString()
 ) as PatientRecord[]
 const pairings = JSON.parse(
 	fs.readFileSync(pairingJsonPath).toString()
 ) as RecordComparison[]
-console.timeEnd(`\tReading pairings from "${slnbPath}" and "${elndPath}"`)
+console.timeEnd(`\tReading pairings from "${pairingJsonPath}"`)
 
 console.time('\tConverting pairings to CSV rows')
 const recordToCsvRow = (

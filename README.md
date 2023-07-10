@@ -59,3 +59,4 @@ Warning: these operations are not reversible.
   - This will not delete `dataset.csv` in the `input` directory
 - Clean up all files and folders in `input` and `output` by running `npm run clean:all`
   - This will delete _everything_ inside both `input` and `output`
+  

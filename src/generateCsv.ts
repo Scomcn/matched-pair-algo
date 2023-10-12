@@ -3,7 +3,7 @@
 // This file will generate a sample CSV data set with random data
 import fs from 'fs'
 
-import { csvPath } from './common'
+import { CSV_PATH } from '../config';
 
 // These headers must be in this order, since they're parsed in order in importCsv.ts
 const HEADERS =
@@ -56,14 +56,14 @@ console.time('Generating random dataset...')
 const file = generateFile()
 console.timeEnd('Generating random dataset...')
 
-console.time(`Writing generated file to "${csvPath}"...`)
+console.time(`Writing generated file to "${CSV_PATH}"...`);
 // Do not overwrite the existing dataset if it exists
-if (fs.existsSync(csvPath)) {
-	console.error(
-		`The file "${csvPath}" already exists. Please move or delete the file and try again.\n`,
-		'Tip: use `npm run clean:all` to delete all files in data/input and data/output.'
-	)
-	process.exit(1)
+if (fs.existsSync(CSV_PATH)) {
+  console.error(
+    `The file "${CSV_PATH}" already exists. Please move or delete the file and try again.\n`,
+    'Tip: use `npm run clean:all` to delete all files in data/input and data/output.',
+  );
+  process.exit(1);
 }
-fs.writeFileSync(csvPath, file)
-console.timeEnd(`Writing generated file to "${csvPath}"...`)
+fs.writeFileSync(CSV_PATH, file);
+console.timeEnd(`Writing generated file to "${CSV_PATH}"...`);

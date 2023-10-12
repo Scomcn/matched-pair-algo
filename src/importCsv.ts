@@ -1,65 +1,86 @@
 #!/usr/bin/env ts-node
 
-import fs from 'fs'
+import fs from 'fs';
 
-import { csvPath, slnbPath, elndPath, PatientRecord } from './common'
+import {
+  DISABLED_VARIABLES,
+  MISSING_VALUE_THRESHOLD,
+  VARIABLES,
+  VariableName,
+  CSV_PATH,
+  ELND_PATH,
+  SLNB_PATH,
+} from '../config';
 
-console.time(`\tReading unpaired records from "${csvPath}"`)
-const csv = fs.readFileSync(csvPath).toString()
+import { PatientRecord } from './util';
+
+console.time(`\tReading unpaired records from "${CSV_PATH}"`);
+const csv = fs.readFileSync(CSV_PATH).toString();
 
 // Use `slice` to remove first line - it contains the headers
 const csvLines = csv
-	.split('\n')
-	.slice(1)
-	.map((line) => line.replace(/\r/, '')) // Remove any carriage return characters
-console.timeEnd(`\tReading unpaired records from "${csvPath}"`)
+  .split('\n')
+  // Remove any carriage return characters
+  .map((line) => line.replace(/\r/, ''))
+  .slice(1);
+console.timeEnd(`\tReading unpaired records from "${CSV_PATH}"`);
 
-console.time(`\tParsing SLNB and ELND records from CSV rows`)
-const slnbRecords: PatientRecord[] = []
-const elndRecords: PatientRecord[] = []
+console.time(`\tParsing SLNB and ELND records from CSV rows`);
+const slnbRecords: PatientRecord[] = [];
+const elndRecords: PatientRecord[] = [];
 
 csvLines.forEach((rowString, index) => {
-	const [
-		genderCode,
-		surgeryDate,
-		depthCode,
-		dysplasiaPresent,
-		perineural,
-		lvi,
-		invasiveCode,
-		ene,
-		slnb,
-		elnd,
-	] = rowString.split(',')
-	const row = {
-		id: index + 2, // Offset of 2 since we trimmed off the headers, and because Excel rows start at 1 not 0.
-		genderCode: Number(genderCode),
-		surgeryDate: new Date(surgeryDate),
-		depthCode: Number.parseInt(depthCode),
-		dysplasia: Boolean(Number(dysplasiaPresent)),
-		perineural: Boolean(Number(perineural)),
-		lvi: Boolean(Number(lvi)),
-		invasiveCode: Number(invasiveCode),
-		ene: Boolean(Number(ene)),
-	}
-	if (Number(slnb)) {
-		slnbRecords.push(row)
-	} else if (Number(elnd)) {
-		elndRecords.push(row)
-	}
-})
-console.timeEnd(`\tParsing SLNB and ELND records from CSV rows`)
+  const columns = rowString.split(',');
+
+  const numMissingValues = columns.filter((v) => v === '').length;
+
+  const genderCode = Number.parseInt(columns[0]);
+  const surgeryDate = new Date(columns[1]);
+
+  const variableValues = columns
+    .slice(2, -2)
+    .map((v) => (v ? Number.parseInt(v) : null));
+
+  const variables = Object.fromEntries(
+    VARIABLES.map((variable, i) => {
+      const value = DISABLED_VARIABLES[variable] ? null : variableValues[i];
+      return [variable, value];
+    }),
+  ) as Record<VariableName, number | null>;
+
+  const [slnb, elnd] = columns.slice(-2).map((v) => Number.parseInt(v));
+
+  const row: PatientRecord = {
+    id: index + 2, // Offset of 2 since we trimmed off the headers, and because Excel rows start at 1 not 0.
+    genderCode,
+    surgeryDate,
+    variables,
+    surgeryType: slnb ? 'SLNB' : 'ELND',
+    discard: numMissingValues > MISSING_VALUE_THRESHOLD,
+  };
+
+  if (slnb) {
+    slnbRecords.push(row);
+  } else if (elnd) {
+    elndRecords.push(row);
+  }
+});
+console.timeEnd(`\tParsing SLNB and ELND records from CSV rows`);
 
 console.time(
-	`\tWriting SLNB and ELND records to "${slnbPath}" and "${elndPath}"`
-)
-fs.writeFileSync(slnbPath, JSON.stringify(slnbRecords))
-fs.writeFileSync(elndPath, JSON.stringify(elndRecords))
+  `\tWriting SLNB and ELND records to "${SLNB_PATH}" and "${ELND_PATH}"`,
+);
+fs.writeFileSync(SLNB_PATH, JSON.stringify(slnbRecords));
+fs.writeFileSync(ELND_PATH, JSON.stringify(elndRecords));
 console.timeEnd(
-	`\tWriting SLNB and ELND records to "${slnbPath}" and "${elndPath}"`
-)
+  `\tWriting SLNB and ELND records to "${SLNB_PATH}" and "${ELND_PATH}"`,
+);
+
+const totalRecords = slnbRecords.length + elndRecords.length;
+const discardedRecords = csvLines.length - totalRecords;
 
 console.log(
-	`${csvLines.length} records in "${csvPath}" - ${slnbRecords.length} SLNB records, ${elndRecords.length} ELND records`
-)
-console.log('Done ✅')
+  `${totalRecords} records imported (${discardedRecords} records discarded) -`,
+  `${slnbRecords.length} SLNB records, ${elndRecords.length} ELND records.`,
+);
+console.log('Done ✅');
